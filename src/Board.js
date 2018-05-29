@@ -15,6 +15,17 @@ class Board extends Component {
     this.nextId = this.nextId.bind(this)
 	}
 
+	componentWillMount(){
+		var self = this
+		if (this.props.count){
+			fetch(`https://baconipsum.com/api/?type=meat&sentences=${this.props.count}`)
+				.then(response => response.json())
+				.then(json => json[0]
+							.split('. ')
+							.forEach(sentences => self.add(sentences.substring(0,20))))
+		}
+	}
+
 	update(newText, i) {
 		console.log('updating item at index', i, newText)
 		this.setState(prevState => ({
